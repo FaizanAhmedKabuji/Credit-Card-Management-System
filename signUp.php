@@ -11,28 +11,34 @@
             if(empty($_POST['password']))
                 throw new Exception("DOB can't be empty.");
 
-            mysqli_query($connect,"INSERT INTO `admin`(`Password`,`UserName`,`UserType`) VALUES('$_POST[userName]','$_POST[password]','normal')");
-            $query1=mysqli_fetch_assoc(mysqli_query($connect,"SELECT * FROM `admin` WHERE `UserName`='$_POST[userName]'"));
-            $UserId=$query1["UserId"];
-            mysqli_query($connect,"INSERT INTO `user`(`UserId`,`UserName`,`Password`,`UserDOB`,`CardType`) VALUES($UserId,'$_POST[userName]','$_POST[password]','$_POST[dob]','$_POST[cardType]')");
-            
-            switch($_POST['cardType'])
+            if(mysqli_num_rows((mysqli_query($connect,"SELECT * FROM `admin` WHERE `UserName`='$_POST[userName]'")))<=0)
             {
-                case 'bronze':
-                    $Credit=25000;
-                break;
-                case 'silver':
-                    $Credit=50000;
-                break;
-                case 'gold':
-                    $Credit=100000;
-                break;
-                case 'platinum':
-                    $Credit=150000;
-                break;
+                mysqli_query($connect,"INSERT INTO `admin`(`Password`,`UserName`,`UserType`) VALUES('$_POST[userName]','$_POST[password]','normal')");
+                $query1=mysqli_fetch_assoc(mysqli_query($connect,"SELECT * FROM `admin` WHERE `UserName`='$_POST[userName]'"));
+                $UserId=$query1["UserId"];
+                mysqli_query($connect,"INSERT INTO `user`(`UserId`,`UserName`,`Password`,`UserDOB`,`CardType`) VALUES($UserId,'$_POST[userName]','$_POST[password]','$_POST[dob]','$_POST[cardType]')");
+                switch($_POST['cardType'])
+                {
+                    case 'bronze':
+                        $Credit=25000;
+                    break;
+                    case 'silver':
+                        $Credit=50000;
+                    break;
+                    case 'gold':
+                        $Credit=100000;
+                    break;
+                    case 'platinum':
+                        $Credit=150000;
+                    break;
+                }
+                mysqli_query($connect,"INSERT INTO `report`(`UserId`,`Credit`,`loan`) VALUES($UserId,$Credit,0)");
+                echo ('<script type="text/JavaScript">alert("SignUp Successful");</script>' );
             }
-            mysqli_query($connect,"INSERT INTO `report`(`UserId`,`Credit`,`loan`) VALUES($UserId,$Credit,0)");
-            $signUpSuccess="Sign Up Successful!";
+            else
+            {
+                echo ('<script type="text/JavaScript">alert("The User Has Been Taken");</script>' );
+            }
         }
     }
     catch(Exception $e)
@@ -50,12 +56,8 @@
     <body>
         <?php
             include('navbar.php');
-            if(isset($signUpSuccess))
-                echo("Sign Up Successful");
-            if(isset($signUpFail))
-                echo("Sign Up Failed")
         ?>
-        <div class="container">
+        <div class="container" id="bodyPage">
             <div class="heading">
                 <h1> Sign Up Page</h1>
             </div>
@@ -91,7 +93,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <?php include('helpSearch.php'); ?>
+                </div>
             </div>
             <div class="row">
                 <div class="col text-center" id="loginSignUp">

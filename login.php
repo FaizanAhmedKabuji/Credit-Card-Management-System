@@ -16,13 +16,13 @@
             }
             else
             {
-                echo("There exist no User with the given details.");
+                echo ('<script type="text/JavaScript">alert("The Entered Details are Wrong");</script>' );
             }
         }
     }
     catch(Exception $e)
     {
-        $loginFail=$e->getMessage();
+
     }
 ?>
 <!DOCTYPE html>
@@ -33,17 +33,13 @@
 		<link href="css/zima.css" rel='stylesheet' type='text/css'/>
 	</head>
 	<body>
-        <?php
-            if(isset($error_msg))
-                echo $error_msg;
-        ?>
-        <div class="container">
+        <div class="container" id="bodyPage">
             <div class="heading">
                 <h1> Login Page</h1>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
-                <div class="col-md-4" id="logSigForm">
+                <div class="col-md-4">
                     <form method="post" action="index.php">
                         <div class="form-group">
                             <label for="userName"> User Name</label>
@@ -51,7 +47,7 @@
                         </div>
                         <div class="form-group">
                             <label for="password"> Password</label>
-                            <input type="password" name="password id="password" placeholder="Enter Your Password" class="form-control">
+                            <input type="password" name="password" id="password" placeholder="Enter Your Password" class="form-control">
                         </div>
                         <div class="form-group">
                             <div class="col text-center">
@@ -72,7 +68,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                   <?php include('helpSearch.php'); ?>
+                </div>
             </div>
             <div class="row">
                 <div class="col text-center" id="loginSignUp">

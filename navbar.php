@@ -13,9 +13,9 @@
 				</div>
 				<div class="navbar-nav ml-auto">
 					<ul class="navbar-nav mr-auto" id="nav">
-						<form action="post" class="form-inline">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search Help" aria-label="Search">
-                            <button class="btn btn-primary" type="submit">Search</button>
+						<form method="post" class="form-inline">
+                            <input class="form-control mr-sm-2" type="search" name="searchQuery" placeholder="Search Help" aria-label="Search">
+                            <button class="btn btn-primary" type="submit" name="search">Search</button>
                         </form>
 					</ul>
 				</div>
